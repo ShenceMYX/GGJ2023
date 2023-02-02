@@ -72,7 +72,8 @@ namespace ns
 
             if (xInput != 0 || yInput != 0) 
             {
-                flipSpriteTrans.localScale = new Vector3(xInput < 0 ? -1 : 1, 1, 1);
+                if (xInput != 0)
+                    flipSpriteTrans.localScale = new Vector3(xInput < 0 ? -1 : 1, 1, 1);
 
                 motor.Movement(new Vector3(xInput, 0, yInput).normalized);
 

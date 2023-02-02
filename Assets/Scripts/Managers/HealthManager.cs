@@ -73,7 +73,7 @@ namespace ns
 
         private void UpdateHealthUI()
         {
-            int currentDecreasingHealthUIIndex = Mathf.FloorToInt(currentHealth / maxHealth);
+            int currentDecreasingHealthUIIndex = Mathf.Clamp(Mathf.FloorToInt(currentHealth / maxHealth), 0, healthUIControllerList.Count - 1);
             healthUIControllerList[currentDecreasingHealthUIIndex].SetHealthUIFillAmount((currentHealth - currentDecreasingHealthUIIndex * maxHealth) / maxHealth);
         }
 
@@ -94,7 +94,7 @@ namespace ns
 
         public int GetHealthIndex()
         {
-            return Mathf.FloorToInt(currentHealth / maxHealth);
+            return Mathf.Clamp(Mathf.FloorToInt(currentHealth / maxHealth), 0, healthUIControllerList.Count - 1);
         }
 
         private void Death()
