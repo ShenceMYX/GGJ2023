@@ -16,6 +16,8 @@ namespace ns
 		[Tooltip("单个血条的最大生命值")] [SerializeField] private float maxHealth = 100;
         [Tooltip("每秒血条下降的速度")] [SerializeField] private float decreaseSpeed = 5;
         [Tooltip("每秒血条上升的速度")] [SerializeField] private float increaseSpeed = 5;
+        private float originalIncreaseSpeed;
+
 
         //血量是否下降
         public bool isHealthDecreasing //{ get; set; }
@@ -36,6 +38,8 @@ namespace ns
         public override void Init()
         {
             base.Init();
+
+            originalIncreaseSpeed = increaseSpeed;
 
 			initialHealthCount = healthUIRootTrans.childCount;
 			for (int i = 0; i < healthUIRootTrans.childCount; i++)
@@ -73,6 +77,26 @@ namespace ns
             healthUIControllerList[currentDecreasingHealthUIIndex].SetHealthUIFillAmount((currentHealth - currentDecreasingHealthUIIndex * maxHealth) / maxHealth);
         }
 
+        public int GetHealthCount()
+        {
+            return healthUIControllerList.Count;
+        }
+
+        public float GetCurrentHealth()
+        {
+            return currentHealth;
+        }
+
+        public float GetMaxHealth()
+        {
+            return maxHealth;
+        }
+
+        public int GetHealthIndex()
+        {
+            return Mathf.FloorToInt(currentHealth / maxHealth);
+        }
+
         private void Death()
         {
             Debug.Log("Death!!!!!");
@@ -93,6 +117,14 @@ namespace ns
             healthUIControllerList.Add(newHealthUIGO.GetComponentInChildren<HealthUIController>());
 
             totalHealth = CalculateTotalHealth();
+        }
+
+        /// <summary>
+        /// 设置血量降低速度
+        /// </summary>
+        public void SetHealthIncreaseSpeed(float ratio)
+        {
+            increaseSpeed = originalIncreaseSpeed * ratio;
         }
 
         public void StopDecreasingHealth()
