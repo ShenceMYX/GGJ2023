@@ -132,9 +132,19 @@ namespace ns
             isHealthDecreasing = false;
         }
 
+        public void StopDecreasingHealth(float delay)
+        {
+            Invoke("StopDecreasingHealth", delay);
+        }
+
         public void ContinueDecreasingHealth()
         {
             isHealthDecreasing = true;
+        }
+
+        public void ContinueDecreasingHealth(float delay)
+        {
+            Invoke("ContinueDecreasingHealth", delay);
         }
 
         public void StartIncreasingHealth()
@@ -143,10 +153,20 @@ namespace ns
             isHealthIncreasing = true;
         }
 
+        public void StartIncreasingHealth(float delay)
+        {
+            Invoke("StartIncreasingHealth", delay);
+        }
+
         public void StopIncreasingHealth()
         {
             isHealthDecreasing = true;
             isHealthIncreasing = false;
+        }
+
+        public void StopIncreasingHealth(float delay)
+        {
+            Invoke("StopIncreasingHealth", delay);
         }
     }
 }

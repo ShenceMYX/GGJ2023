@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace ns
@@ -19,11 +20,21 @@ namespace ns
 
         private CharacterMotor motor;
 
-        [SerializeField] private SpriteRenderer eyesRenderer;
+        [SerializeField] private Transform flipSpriteTrans;
+
+        private MMF_Player rootFeedbacks;
+        private MMF_Player unrootFeedbacks;
+
+        [SerializeField] private Animator treeBaseAnim;
+        [SerializeField] private float rootDelay = 0.5f;
 
         private void Start()
         {
             motor = GetComponent<CharacterMotor>();
+
+            Transform feedbacksRootTrans = transform.Find("feedbacks");
+            rootFeedbacks = feedbacksRootTrans.Find("root feedbacks").GetComponent<MMF_Player>();
+            unrootFeedbacks = feedbacksRootTrans.Find("unroot feedbacks").GetComponent<MMF_Player>();
         }
 
         private void Update()
@@ -31,24 +42,27 @@ namespace ns
             xInput = Input.GetAxisRaw("Horizontal");
             yInput = Input.GetAxisRaw("Vertical");
 
+            treeBaseAnim.SetFloat("Input Magnitude", Mathf.Clamp01(new Vector3(xInput, 0, yInput).magnitude));
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 isRooting = !isRooting;
 
+                if (isRooting) rootFeedbacks?.PlayFeedbacks(); else unrootFeedbacks?.PlayFeedbacks();
+
                 if (enterSoilArea)
                 {
                     if (isRooting)
-                        HealthManager.Instance.StartIncreasingHealth();
+                        HealthManager.Instance.StartIncreasingHealth(rootDelay);
                     else
-                        HealthManager.Instance.StopIncreasingHealth();
+                        HealthManager.Instance.StopIncreasingHealth(rootDelay);
                 }
                 else
                 {
                     if (isRooting)
-                        HealthManager.Instance.StopDecreasingHealth();
+                        HealthManager.Instance.StopDecreasingHealth(rootDelay);
                     else
-                        HealthManager.Instance.ContinueDecreasingHealth();
+                        HealthManager.Instance.ContinueDecreasingHealth(rootDelay);
                 }
             }
            
@@ -58,9 +72,11 @@ namespace ns
 
             if (xInput != 0 || yInput != 0) 
             {
-                eyesRenderer.flipX = xInput < 0;
+                flipSpriteTrans.localScale = new Vector3(xInput < 0 ? -1 : 1, 1, 1);
 
                 motor.Movement(new Vector3(xInput, 0, yInput).normalized);
+
+                
             }
         }
     }
