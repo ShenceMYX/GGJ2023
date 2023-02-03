@@ -2099,11 +2099,27 @@ Material:
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!1 &318629777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2562382479357226298, guid: 4c1895c5e55974985acb652a57ad531e, type: 3}
+  m_PrefabInstance: {fileID: 2562382479113079467}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &318629778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2562382479357226297, guid: 4c1895c5e55974985acb652a57ad531e, type: 3}
   m_PrefabInstance: {fileID: 2562382479113079467}
   m_PrefabAsset: {fileID: 0}
+--- !u!210 &318629784
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318629777}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
 --- !u!1 &328674359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,11 +2354,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 172785322566208954, guid: ebf5cbc1b743e4d53b0a3b256c5e5526, type: 3}
   m_PrefabInstance: {fileID: 172785322163641283}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &423924020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8301265477573441198, guid: d5164a316e0f748929de7862c706fe86, type: 3}
+  m_PrefabInstance: {fileID: 8301265477720532890}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &423924021 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8301265477573441199, guid: d5164a316e0f748929de7862c706fe86, type: 3}
   m_PrefabInstance: {fileID: 8301265477720532890}
   m_PrefabAsset: {fileID: 0}
+--- !u!210 &423924025
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423924020}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
 --- !u!114 &427886897 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8301265477561216683, guid: d5164a316e0f748929de7862c706fe86, type: 3}
@@ -2417,7 +2449,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3925,6 +3957,11 @@ Material:
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!1 &985807639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1332858241013482716, guid: 2668d3335720c4c808f54aea9801d4bb, type: 3}
+  m_PrefabInstance: {fileID: 1332858241147059410}
+  m_PrefabAsset: {fileID: 0}
 --- !u!21 &987603743
 Material:
   serializedVersion: 8
@@ -5021,12 +5058,23 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1332858241013482691, guid: 2668d3335720c4c808f54aea9801d4bb, type: 3}
   m_PrefabInstance: {fileID: 1332858241147059410}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 985807639}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8b73c000d98249808629bbc3b9820b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!210 &1128335824
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985807639}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &1144810480
 GameObject:
   m_ObjectHideFlags: 0
@@ -7380,7 +7428,7 @@ MonoBehaviour:
   healthUIPrefab: {fileID: 5301702144896081023, guid: c4fcad5db9cce44cd995b873914ab3e1, type: 3}
   deathFeedbacks: {fileID: 1060842355}
   treeTrunksRootTrans: {fileID: 1789987006}
-  willTriggerDeath: 0
+  willTriggerDeath: 1
 --- !u!21 &1569227071
 Material:
   serializedVersion: 8
@@ -8172,7 +8220,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 134887439}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 50
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -9161,6 +9209,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sun Collectable
       objectReference: {fileID: 0}
+    - target: {fileID: 172785322566208955, guid: ebf5cbc1b743e4d53b0a3b256c5e5526, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf5cbc1b743e4d53b0a3b256c5e5526, type: 3}
 --- !u!1001 &1332858241147059410
@@ -9210,6 +9262,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 237558542}
+    - target: {fileID: 336074072, guid: 2668d3335720c4c808f54aea9801d4bb, type: 3}
+      propertyPath: m_IsCustomRangeActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 377128133, guid: 2668d3335720c4c808f54aea9801d4bb, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

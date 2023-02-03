@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ns
 {
@@ -9,25 +10,25 @@ namespace ns
 	/// </summary>
 	public class SpriteSortingManager : MonoBehaviour
 	{
-		private SpriteRenderer[] spriteRenderers;
+		private SortingGroup[] sortingGroups;
 
-		private int[] initialOrders;
+		//private int[] initialOrders;
 
         private void Start()
         {
-			spriteRenderers = FindObjectsOfType<SpriteRenderer>();
-			initialOrders = new int[spriteRenderers.Length];
-			for (int i = 0; i < spriteRenderers.Length; i++)
-            {
-				initialOrders[i] = spriteRenderers[i].sortingOrder;
-            }
+            sortingGroups = FindObjectsOfType<SortingGroup>();
+			//initialOrders = new int[spriteRenderers.Length];
+			//for (int i = 0; i < spriteRenderers.Length; i++)
+   //         {
+			//	initialOrders[i] = spriteRenderers[i].sortingOrder;
+   //         }
         }
 
         private void Update()
         {
-            for (int i = 0; i < spriteRenderers.Length; i++)
+            for (int i = 0; i < sortingGroups.Length; i++)
             {
-                spriteRenderers[i].sortingOrder = (int)(-100 * spriteRenderers[i].transform.position.z + initialOrders[i]);
+                sortingGroups[i].sortingOrder = (int)(-100 * sortingGroups[i].transform.position.z);
             }
         }
     }
