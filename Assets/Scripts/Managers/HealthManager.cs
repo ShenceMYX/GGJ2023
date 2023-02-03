@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,14 @@ namespace ns
 
 		private List<HealthUIController> healthUIControllerList = new List<HealthUIController>();
 
+        [SerializeField] private MMF_Player deathFeedbacks;
+
+        [SerializeField] private Transform treeTrunksRootTrans;
+
+        [Tooltip("玩家会不会死亡")] [SerializeField] private bool willTriggerDeath = false;
+
+        private bool isDeath = false;
+
         public override void Init()
         {
             base.Init();
@@ -52,6 +61,8 @@ namespace ns
 
         private void Update()
         {
+            if (isDeath) return;
+
             if (isHealthDecreasing)
             {
                 currentHealth -= decreaseSpeed * Time.deltaTime;
@@ -99,8 +110,23 @@ namespace ns
 
         private void Death()
         {
-            Debug.Log("Death!!!!!");
+            if (!willTriggerDeath) return;
+
+            deathFeedbacks?.PlayFeedbacks();
+            EnableGreyscaleEffectsForTreeBase();
+            GameManager.Instance.GameOver();
+            isDeath = true;
         }
+
+        private void EnableGreyscaleEffectsForTreeBase()
+        {
+            treeTrunksRootTrans.GetChild(0).GetComponent<Renderer>().material.EnableKeyword("GREYSCALE_ON");
+            //for (int i = 0; i < treeTrunksRootTrans.childCount; i++)
+            //{
+            //    treeTrunksRootTrans.GetChild(i).GetComponent<Renderer>().material.EnableKeyword("GREYSCALE_ON");
+            //}
+        }
+
 
         private float CalculateTotalHealth()
         {

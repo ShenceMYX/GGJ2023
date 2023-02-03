@@ -26,11 +26,22 @@ namespace ns
 
 		[SerializeField] private Transform leavesTrans;
 
+		[SerializeField] private Transform colliderRootTrans;
+		[Tooltip("Collider y方向上最大的伸缩")][SerializeField] private float maxColliderYScale = 3;
+		//Collider y方向上最小的伸缩
+		private const float minColliderYScale = 1;
+
 		private void Update()
         {
 			ChangeHeight();
 			ChangeCameraFOV();
 			ChangeLeavesHeight();
+        }
+
+		private void ChangeColliderHeight()
+        {
+			float yScale = minColliderYScale + (maxColliderYScale - minColliderYScale) * HealthManager.Instance.GetCurrentHealth() / (healthLimit * HealthManager.Instance.GetMaxHealth());
+			colliderRootTrans.localScale = new Vector3(1, yScale, 1);
         }
 
 		private void ChangeLeavesHeight()

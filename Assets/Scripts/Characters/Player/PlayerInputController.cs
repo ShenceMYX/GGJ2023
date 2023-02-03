@@ -28,6 +28,8 @@ namespace ns
         [SerializeField] private Animator treeBaseAnim;
         [SerializeField] private float rootDelay = 0.5f;
 
+        public bool canInput { get; set; } = true;
+
         private void Start()
         {
             motor = GetComponent<CharacterMotor>();
@@ -39,6 +41,8 @@ namespace ns
 
         private void Update()
         {
+            if (!canInput) { motor.Movement(Vector3.zero); return; }
+
             xInput = Input.GetAxisRaw("Horizontal");
             yInput = Input.GetAxisRaw("Vertical");
 
