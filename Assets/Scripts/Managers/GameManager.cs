@@ -21,11 +21,6 @@ namespace ns
 		[SerializeField] private CanvasGroup gameoverUICanvasGroup;
 		[SerializeField] private float gameoverUIFadeInDuration = 2f;
 
-        private void Start()
-        {
-			
-		}
-
         public void GameOver()
         {
 			Debug.Log("??????/");

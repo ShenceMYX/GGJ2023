@@ -15,18 +15,16 @@ namespace ns
 	{
 		[Tooltip("初始有几个血条")] private int initialHealthCount = 3;
 		[Tooltip("单个血条的最大生命值")] [SerializeField] private float maxHealth = 100;
-        [Tooltip("每秒血条下降的速度")] [SerializeField] private float decreaseSpeed = 5;
-        [Tooltip("每秒血条上升的速度")] [SerializeField] private float increaseSpeed = 5;
-        private float originalIncreaseSpeed;
+        //[Tooltip("每秒血条上升的速度")] [SerializeField] private float increaseSpeed = 5;
+        [Tooltip("每秒血条上升的速度")] public float healthChangeSpeed = 0;
+        //private float originalIncreaseSpeed;
 
 
         //血量是否下降
-        public bool isHealthDecreasing //{ get; set; }
-            = true;
+        //public bool isHealthDecreasing = true;
 
         //血量是否上升
-        public bool isHealthIncreasing //{ get; set; }
-            = false;
+        //public bool isHealthIncreasing = false;
 
         [SerializeField] private float totalHealth;
         [SerializeField] private float currentHealth;
@@ -48,7 +46,7 @@ namespace ns
         {
             base.Init();
 
-            originalIncreaseSpeed = increaseSpeed;
+            //originalIncreaseSpeed = increaseSpeed;
 
 			initialHealthCount = healthUIRootTrans.childCount;
 			for (int i = 0; i < healthUIRootTrans.childCount; i++)
@@ -63,23 +61,31 @@ namespace ns
         {
             if (isDeath) return;
 
-            if (isHealthDecreasing)
-            {
-                currentHealth -= decreaseSpeed * Time.deltaTime;
-                if (currentHealth < 0) currentHealth = 0;
+            currentHealth += healthChangeSpeed * Time.deltaTime;
+            currentHealth = Mathf.Clamp(currentHealth, 0, totalHealth);
 
-                UpdateHealthUI();
+            UpdateHealthUI();
 
-                if (currentHealth <= 0)
-                    Death();
-            }
-            else if (isHealthIncreasing)
-            {
-                currentHealth += increaseSpeed * Time.deltaTime;
-                if (currentHealth > totalHealth) currentHealth = totalHealth;
+            if (currentHealth <= 0)
+                Death();
 
-                UpdateHealthUI();
-            }
+            //if (isHealthDecreasing)
+            //{
+            //    currentHealth -= decreaseSpeed * Time.deltaTime;
+            //    if (currentHealth < 0) currentHealth = 0;
+
+            //    UpdateHealthUI();
+
+            //    if (currentHealth <= 0)
+            //        Death();
+            //}
+            //else if (isHealthIncreasing)
+            //{
+            //    currentHealth += increaseSpeed * Time.deltaTime;
+            //    if (currentHealth > totalHealth) currentHealth = totalHealth;
+
+            //    UpdateHealthUI();
+            //}
         }
 
         private void UpdateHealthUI()
@@ -148,51 +154,65 @@ namespace ns
         /// <summary>
         /// 设置血量降低速度
         /// </summary>
-        public void SetHealthIncreaseSpeed(float ratio)
+        public void AddHealthChangeSpeed(float value)
         {
-            increaseSpeed = originalIncreaseSpeed * ratio;
+            healthChangeSpeed += value;
         }
 
-        public void StopDecreasingHealth()
+        /// <summary>
+        /// 设置血量降低速度
+        /// </summary>
+        public void AddHealthChangeSpeed(float value, float delay)
         {
-            isHealthDecreasing = false;
+            StartCoroutine(LateAddHealthChangeSpeed(value, delay));
         }
 
-        public void StopDecreasingHealth(float delay)
+        private IEnumerator LateAddHealthChangeSpeed(float value, float delay)
         {
-            Invoke("StopDecreasingHealth", delay);
+            yield return new WaitForSeconds(delay);
+            healthChangeSpeed += value;
         }
 
-        public void ContinueDecreasingHealth()
-        {
-            isHealthDecreasing = true;
-        }
+        //public void StopDecreasingHealth()
+        //{
+        //    isHealthDecreasing = false;
+        //}
 
-        public void ContinueDecreasingHealth(float delay)
-        {
-            Invoke("ContinueDecreasingHealth", delay);
-        }
+        //public void StopDecreasingHealth(float delay)
+        //{
+        //    Invoke("StopDecreasingHealth", delay);
+        //}
 
-        public void StartIncreasingHealth()
-        {
-            isHealthDecreasing = false;
-            isHealthIncreasing = true;
-        }
+        //public void ContinueDecreasingHealth()
+        //{
+        //    isHealthDecreasing = true;
+        //}
 
-        public void StartIncreasingHealth(float delay)
-        {
-            Invoke("StartIncreasingHealth", delay);
-        }
+        //public void ContinueDecreasingHealth(float delay)
+        //{
+        //    Invoke("ContinueDecreasingHealth", delay);
+        //}
 
-        public void StopIncreasingHealth()
-        {
-            isHealthDecreasing = true;
-            isHealthIncreasing = false;
-        }
+        //public void StartIncreasingHealth()
+        //{
+        //    isHealthDecreasing = false;
+        //    isHealthIncreasing = true;
+        //}
 
-        public void StopIncreasingHealth(float delay)
-        {
-            Invoke("StopIncreasingHealth", delay);
-        }
+        //public void StartIncreasingHealth(float delay)
+        //{
+        //    Invoke("StartIncreasingHealth", delay);
+        //}
+
+        //public void StopIncreasingHealth()
+        //{
+        //    isHealthDecreasing = true;
+        //    isHealthIncreasing = false;
+        //}
+
+        //public void StopIncreasingHealth(float delay)
+        //{
+        //    Invoke("StopIncreasingHealth", delay);
+        //}
     }
 }

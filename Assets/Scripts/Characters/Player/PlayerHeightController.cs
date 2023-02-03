@@ -9,13 +9,13 @@ namespace ns
 	/// <summary>
 	///
 	/// </summary>
-	public class CharacterHeightController : MonoBehaviour
+	public class PlayerHeightController : MonoBehaviour
 	{
 		//min:1 max:6 length:5 maxHealth:6
 		public Transform maskTrans;
 
 		//mask y scale最高是5
-		private const int heightLimit = 5;
+		[SerializeField] private int heightLimit = 5;
 		//最多六颗树叶
 		private const int healthLimit = 6;
 
@@ -36,7 +36,8 @@ namespace ns
 			ChangeHeight();
 			ChangeCameraFOV();
 			ChangeLeavesHeight();
-        }
+			ChangeColliderHeight();
+		}
 
 		private void ChangeColliderHeight()
         {

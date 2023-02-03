@@ -9,14 +9,19 @@ namespace ns
 	/// </summary>
 	public class Soil : MonoBehaviour
 	{
-        [SerializeField] private float decreaseSpeedRatio = 1;
-
+        [SerializeField] private float increaseSpeed = 40;
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                other.GetComponent<PlayerInputController>().enterSoilArea = true;
-                HealthManager.Instance.SetHealthIncreaseSpeed(decreaseSpeedRatio);
+                PlayerInputController.Instance.enterSoilArea = true;
+                PlayerInputController.Instance.soilIncreaseSpeed = increaseSpeed;
+            }
+            else if (other.CompareTag("Enemy"))
+            {
+                other.transform.parent.parent.GetComponent<EnemyHealthController>().enterSoilArea = true;
+                other.transform.parent.parent.GetComponent<EnemyHealthController>().soilIncreaseSpeed = increaseSpeed;
             }
         }
 
@@ -24,8 +29,7 @@ namespace ns
         {
             if (other.CompareTag("Player"))
             {
-                other.GetComponent<PlayerInputController>().enterSoilArea = false;
-                HealthManager.Instance.SetHealthIncreaseSpeed(1);
+                PlayerInputController.Instance.enterSoilArea = false;
             }
         }
     }

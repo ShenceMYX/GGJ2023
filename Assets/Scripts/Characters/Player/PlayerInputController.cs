@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Common;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 
@@ -8,12 +9,13 @@ namespace ns
     /// <summary>
     /// 
     /// </summary>
-    public class PlayerInputController : MonoBehaviour
+    public class PlayerInputController : MonoSingleton<PlayerInputController>
     {
+        [Tooltip("没有扎根土壤时，每秒血条下降的速度")] [SerializeField] private float autoDecreasingSpeed = -20;
         //进入土壤
         public bool enterSoilArea;
         //正在扎根
-        private bool isRooting = false;
+        public bool isRooting { get; private set; } = false;
 
         private float xInput;
         private float yInput;
@@ -26,13 +28,23 @@ namespace ns
         private MMF_Player unrootFeedbacks;
 
         [SerializeField] private Animator treeBaseAnim;
-        [SerializeField] private float rootDelay = 0.5f;
+        public float rootDelay = 0.5f;
+        //土壤使得生命值增加的速度
+        public float soilIncreaseSpeed;
 
         public bool canInput { get; set; } = true;
 
+        public TreeHeight treeHeight { get; private set; }
+
+        [Tooltip("对其他树木造成伤害，让他们生命降低的速度")]
+        public float playerDamage = 20;
+
         private void Start()
         {
+            HealthManager.Instance.healthChangeSpeed = autoDecreasingSpeed;
+
             motor = GetComponent<CharacterMotor>();
+            treeHeight = GetComponentInChildren<TreeHeight>();
 
             Transform feedbacksRootTrans = transform.Find("feedbacks");
             rootFeedbacks = feedbacksRootTrans.Find("root feedbacks").GetComponent<MMF_Player>();
@@ -56,17 +68,21 @@ namespace ns
 
                 if (enterSoilArea)
                 {
+                    //-20 + 40 = 20
                     if (isRooting)
-                        HealthManager.Instance.StartIncreasingHealth(rootDelay);
+                        HealthManager.Instance.AddHealthChangeSpeed(soilIncreaseSpeed,rootDelay);
+                    //20 - 40 = -20
                     else
-                        HealthManager.Instance.StopIncreasingHealth(rootDelay);
+                        HealthManager.Instance.AddHealthChangeSpeed(-soilIncreaseSpeed,rootDelay);
                 }
                 else
                 {
+                    //-20 + 20 = 0
                     if (isRooting)
-                        HealthManager.Instance.StopDecreasingHealth(rootDelay);
+                        HealthManager.Instance.AddHealthChangeSpeed(-autoDecreasingSpeed, rootDelay);
+                    //0 - 20 = -20
                     else
-                        HealthManager.Instance.ContinueDecreasingHealth(rootDelay);
+                        HealthManager.Instance.AddHealthChangeSpeed(autoDecreasingSpeed, rootDelay);
                 }
             }
            
@@ -77,7 +93,7 @@ namespace ns
             if (xInput != 0 || yInput != 0) 
             {
                 if (xInput != 0)
-                    flipSpriteTrans.localScale = new Vector3(xInput < 0 ? -1 : 1, 1, 1);
+                    flipSpriteTrans.localScale = new Vector3(xInput < 0 ? -flipSpriteTrans.localScale.y : flipSpriteTrans.localScale.y, flipSpriteTrans.localScale.y, 1);
 
                 motor.Movement(new Vector3(xInput, 0, yInput).normalized);
 
