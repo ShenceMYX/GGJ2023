@@ -20,7 +20,7 @@ namespace ns
                 {
                     collectFeedbacks.gameObject.transform.parent = null;
                     collectFeedbacks?.PlayFeedbacks();
-                    Destroy(gameObject, 1f);
+                    Destroy(gameObject, 0.2f);
                 }
             }
         }
