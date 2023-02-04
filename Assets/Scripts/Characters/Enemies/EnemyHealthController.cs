@@ -43,16 +43,25 @@ namespace ns
 
         [SerializeField] private Transform[] partsToBeGreyscaleArr;
 
+        [SerializeField] private float damageInterval = 0.75f;
+        private float startDamageTimer;
+
+        [SerializeField] private MMF_Player hitFeedbacks;
+        private SpriteRenderer[] allSpriteRenderers;
+        [SerializeField] private float flickerEffectsInterval = 0.1f;
+
         private void Start()
         {
             totalHealth = maxHealth * maxHealthRatio;
             currentHealth = totalHealth;
             treeHeight = GetComponentInChildren<TreeHeight>();
+
+            allSpriteRenderers = transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>();
         }
 
         private void Update()
         {
-            if (isDeath) return;
+            if (isDeath || HealthManager.Instance.isDeath) return;
 
             //初始-20，每秒自动扣20
             healthChangeSpeed = healthOriginalSpeed;
@@ -77,6 +86,13 @@ namespace ns
                 {
                     EnergyManager.Instance.IncreaseEnergy();
                     healthChangeSpeed -= PlayerInputController.Instance.playerDamage;
+
+                    if(startDamageTimer < Time.time)
+                    {
+                        hitFeedbacks?.PlayFeedbacks();
+                        StartCoroutine(FlickerEffects());
+                        startDamageTimer = Time.time + damageInterval;
+                    }
                 }
                 else
                 {
@@ -86,6 +102,15 @@ namespace ns
                         //玩家将处于被敌人扣血状态
                         decreaseOnce = true;
                     }
+                }
+            }
+
+            if (decreaseOnce)
+            {
+                if (startDamageTimer < Time.time)
+                {
+                    HealthManager.Instance.PlayHitEffects();
+                    startDamageTimer = Time.time + damageInterval;
                 }
             }
 
@@ -103,6 +128,19 @@ namespace ns
 
             if (currentHealth <= 0)
                 Death();
+        }
+
+        private IEnumerator FlickerEffects()
+        {
+            for (int i = 0; i < allSpriteRenderers.Length; i++)
+            {
+                allSpriteRenderers[i].material.EnableKeyword("HITEFFECT_ON");
+            }
+            yield return new WaitForSeconds(flickerEffectsInterval);
+            for (int i = 0; i < allSpriteRenderers.Length; i++)
+            {
+                allSpriteRenderers[i].material.DisableKeyword("HITEFFECT_ON");
+            }
         }
 
         private void Death()

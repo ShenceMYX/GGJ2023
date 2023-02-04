@@ -40,17 +40,23 @@ namespace ns
 
         [Tooltip("玩家会不会死亡")] [SerializeField] private bool willTriggerDeath = false;
 
-        private bool isDeath = false;
+        public bool isDeath { get; private set; } = false;
 
         [SerializeField] private GameObject extraHealthGO;
+
+        [SerializeField] private MMF_Player hitFeedbacks;
+        [SerializeField] private Transform playerSpritesRootTrans;
+        private SpriteRenderer[] allSpriteRenderers;
+        [SerializeField] private float flickerEffectsInterval = 0.1f;
 
         public override void Init()
         {
             base.Init();
 
             //originalIncreaseSpeed = increaseSpeed;
+            allSpriteRenderers = playerSpritesRootTrans.GetComponentsInChildren<SpriteRenderer>();
 
-			initialHealthCount = healthUIRootTrans.childCount;
+            initialHealthCount = healthUIRootTrans.childCount;
 			for (int i = 0; i < healthUIRootTrans.childCount; i++)
             {
 				healthUIControllerList.Add(healthUIRootTrans.GetChild(i).GetComponentInChildren<HealthUIController>());
@@ -174,6 +180,25 @@ namespace ns
         {
             yield return new WaitForSeconds(delay);
             healthChangeSpeed += value;
+        }
+
+        public void PlayHitEffects()
+        {
+            hitFeedbacks?.PlayFeedbacks();
+            StartCoroutine(FlickerEffects());
+        }
+
+        private IEnumerator FlickerEffects()
+        {
+            for (int i = 0; i < allSpriteRenderers.Length; i++)
+            {
+                allSpriteRenderers[i].material.EnableKeyword("HITEFFECT_ON");
+            }
+            yield return new WaitForSeconds(flickerEffectsInterval);
+            for (int i = 0; i < allSpriteRenderers.Length; i++)
+            {
+                allSpriteRenderers[i].material.DisableKeyword("HITEFFECT_ON");
+            }
         }
 
         //public void StopDecreasingHealth()

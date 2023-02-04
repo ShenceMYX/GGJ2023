@@ -15,6 +15,7 @@ namespace ns
 	{
 		[SerializeField] private PlayerInputController playerInputController;
 		[SerializeField] private PostProcessVolume gameoverVolume;
+		[SerializeField] private PostProcessVolume postVolume;
 		[Tooltip("屏幕变灰效果延迟")] [SerializeField] private float greyOutEffectDelay = 1f;
 		[Tooltip("屏幕变灰持续时间")] [SerializeField] private float greyOutEffectDuration = 3f;
 
@@ -24,6 +25,7 @@ namespace ns
         public void GameOver()
         {
 			playerInputController.canInput = false;
+			postVolume.weight = 0;
 			DOTween.To((float pNewValue) => gameoverVolume.weight = pNewValue, 0, 1, greyOutEffectDuration).SetDelay(greyOutEffectDelay)
 				.OnComplete(() => {
 					gameoverVolume.weight = 1;
