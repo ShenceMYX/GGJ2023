@@ -11,7 +11,6 @@ namespace ns
     /// </summary>
     public class PlayerInputController : MonoSingleton<PlayerInputController>
     {
-        [Tooltip("没有扎根土壤时，每秒血条下降的速度")] [SerializeField] private float autoDecreasingSpeed = -20;
         //进入土壤
         public bool enterSoilArea;
         //正在扎根
@@ -41,7 +40,7 @@ namespace ns
 
         private void Start()
         {
-            HealthManager.Instance.healthChangeSpeed = autoDecreasingSpeed;
+            //HealthManager.Instance.healthChangeSpeed = autoDecreasingSpeed;
 
             motor = GetComponent<CharacterMotor>();
             treeHeight = GetComponentInChildren<TreeHeight>();
@@ -66,24 +65,24 @@ namespace ns
 
                 if (isRooting) rootFeedbacks?.PlayFeedbacks(); else unrootFeedbacks?.PlayFeedbacks();
 
-                if (enterSoilArea)
-                {
-                    //-20 + 40 = 20
-                    if (isRooting)
-                        HealthManager.Instance.AddHealthChangeSpeed(soilIncreaseSpeed,rootDelay);
-                    //20 - 40 = -20
-                    else
-                        HealthManager.Instance.AddHealthChangeSpeed(-soilIncreaseSpeed,rootDelay);
-                }
-                else
-                {
-                    //-20 + 20 = 0
-                    if (isRooting)
-                        HealthManager.Instance.AddHealthChangeSpeed(-autoDecreasingSpeed, rootDelay);
-                    //0 - 20 = -20
-                    else
-                        HealthManager.Instance.AddHealthChangeSpeed(autoDecreasingSpeed, rootDelay);
-                }
+                //if (enterSoilArea)
+                //{
+                //    //-20 + 40 = 20
+                //    if (isRooting)
+                //        HealthManager.Instance.AddHealthChangeSpeed(soilIncreaseSpeed,rootDelay);
+                //    //20 - 40 = -20
+                //    else
+                //        HealthManager.Instance.AddHealthChangeSpeed(-soilIncreaseSpeed,rootDelay);
+                //}
+                //else
+                //{
+                //    //-20 + 20 = 0
+                //    if (isRooting)
+                //        HealthManager.Instance.AddHealthChangeSpeed(-autoDecreasingSpeed, rootDelay);
+                //    //0 - 20 = -20
+                //    else
+                //        HealthManager.Instance.AddHealthChangeSpeed(autoDecreasingSpeed, rootDelay);
+                //}
             }
            
 
