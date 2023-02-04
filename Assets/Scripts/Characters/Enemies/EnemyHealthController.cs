@@ -21,6 +21,9 @@ namespace ns
         [SerializeField] private float healthDecreaseSpeed = -20;
         [SerializeField] private float maxHealth = 100;
         [SerializeField] private float currentHealth;
+        [Tooltip("最大生命的占比，也是与最大高度的比例，如0.5就是最大高度的一半")][SerializeField] [Range(0, 1)] private float maxHealthRatio = 1;
+        //根据占比计算后的实际的最大高度
+        private float totalHealth;
 
         [Tooltip("敌人的伤害：每秒扣除玩家的血量")][SerializeField] private float enemyDamage = 40;
         //这对healthmanager设置一次扣除的血量
@@ -42,7 +45,8 @@ namespace ns
 
         private void Start()
         {
-            currentHealth = maxHealth;
+            totalHealth = maxHealth * maxHealthRatio;
+            currentHealth = totalHealth;
             treeHeight = GetComponentInChildren<TreeHeight>();
         }
 
@@ -68,8 +72,10 @@ namespace ns
             //如果玩家进去范围了，且双方扎根了，根据高度判定谁扣血
             if (playerEnterRange && isRooting && PlayerInputController.Instance.isRooting)
             {
+                //玩家攻击敌人
                 if (PlayerInputController.Instance.treeHeight.height >= treeHeight.height)
                 {
+                    EnergyManager.Instance.IncreaseEnergy();
                     healthChangeSpeed -= PlayerInputController.Instance.playerDamage;
                 }
                 else
@@ -91,7 +97,7 @@ namespace ns
             }
 
             currentHealth += healthChangeSpeed * Time.deltaTime;
-            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+            currentHealth = Mathf.Clamp(currentHealth, 0, totalHealth);
 
             //UpdateHealthUI();
 
@@ -102,7 +108,7 @@ namespace ns
         private void Death()
         {
             deathFeedbacks?.PlayFeedbacks();
-            if (partsToBeGreyscaleArr != null)
+            if (partsToBeGreyscaleArr != null && partsToBeGreyscaleArr.Length != 0)
                 EnableGreyscaleEffectsForTreeBase();
             isDeath = true;
         }
