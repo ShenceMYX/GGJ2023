@@ -42,6 +42,8 @@ namespace ns
 
         private bool isDeath = false;
 
+        [SerializeField] private GameObject extraHealthGO;
+
         public override void Init()
         {
             base.Init();
@@ -144,9 +146,10 @@ namespace ns
         /// </summary>
         public void IncreaseMaxHealth()
         {
-            GameObject newHealthUIGO = Instantiate(healthUIPrefab, healthUIRootTrans);
+            //GameObject newHealthUIGO = Instantiate(healthUIPrefab, healthUIRootTrans);
+            extraHealthGO.transform.parent = healthUIRootTrans;
 
-            healthUIControllerList.Add(newHealthUIGO.GetComponentInChildren<HealthUIController>());
+            healthUIControllerList.Add(extraHealthGO.GetComponentInChildren<HealthUIController>());
 
             totalHealth = CalculateTotalHealth();
         }

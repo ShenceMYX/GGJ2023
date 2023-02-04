@@ -23,11 +23,9 @@ namespace ns
 
         public void GameOver()
         {
-			Debug.Log("??????/");
 			playerInputController.canInput = false;
 			DOTween.To((float pNewValue) => gameoverVolume.weight = pNewValue, 0, 1, greyOutEffectDuration).SetDelay(greyOutEffectDelay)
 				.OnComplete(() => {
-					Debug.Log("11111111111");
 					gameoverVolume.weight = 1;
 					DOTween.To((float pNewValue) => gameoverUICanvasGroup.alpha = pNewValue, 0, 1, gameoverUIFadeInDuration);
 				});
