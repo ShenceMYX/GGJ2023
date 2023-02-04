@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Environment
+  - Missile
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - Post Processing
   - Player
-  - 
-  - 
+  - Obstacles
+  - Enemy
   - 
   - 
   - 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.Feedbacks;
+using Pathfinding;
 using UnityEngine;
 
 namespace ns
@@ -36,8 +37,11 @@ namespace ns
 
         [SerializeField] private Animator baseAnim;
 
+        private AIDestinationSetter destinationSetter;
+
         private void Start()
         {
+            destinationSetter = GetComponent<AIDestinationSetter>();
             enemyHealthController = GetComponent<EnemyHealthController>();
             motor = GetComponent<CharacterMotor>();
 
@@ -48,7 +52,9 @@ namespace ns
 
         private void Update()
         {
-            if (enemyHealthController.isDeath) { motor.Movement(Vector3.zero); return; }
+            if (enemyHealthController.isDeath) { //motor.Movement(Vector3.zero);
+                destinationSetter.target = transform;
+                return; }
 
             switch (currentState)
             {
@@ -78,7 +84,8 @@ namespace ns
             if (!withinVisionRange)
             {
                 currentState = EnemyState.idle;
-                motor.Movement(Vector3.zero);
+                //motor.Movement(Vector3.zero);
+                destinationSetter.target = transform;
                 baseAnim.SetFloat("moveSpeed", 0);
                 rootFeedbacks?.PlayFeedbacks();
                 return;
@@ -87,12 +94,14 @@ namespace ns
             {
                 currentState = EnemyState.attack;
                 rootFeedbacks?.PlayFeedbacks();
-                motor.Movement(Vector3.zero);
+                //motor.Movement(Vector3.zero);
+                destinationSetter.target = transform;
                 baseAnim.SetFloat("moveSpeed", 0);
                 return;
             }
 
-            motor.Movement((PlayerInputController.Instance.transform.position - transform.position).normalized);
+            destinationSetter.target = PlayerInputController.Instance.transform;
+            //motor.Movement((PlayerInputController.Instance.transform.position - transform.position).normalized);
             baseAnim.SetFloat("moveSpeed", 1);
             enemyHealthController.isRooting = false;
         }

@@ -22,6 +22,8 @@ namespace ns
 		[SerializeField] private CanvasGroup gameoverUICanvasGroup;
 		[SerializeField] private float gameoverUIFadeInDuration = 2f;
 
+		[SerializeField] private Transform gameoverTrans;
+
         public void GameOver()
         {
 			playerInputController.canInput = false;
@@ -29,6 +31,7 @@ namespace ns
 			DOTween.To((float pNewValue) => gameoverVolume.weight = pNewValue, 0, 1, greyOutEffectDuration).SetDelay(greyOutEffectDelay)
 				.OnComplete(() => {
 					gameoverVolume.weight = 1;
+
 					DOTween.To((float pNewValue) => gameoverUICanvasGroup.alpha = pNewValue, 0, 1, gameoverUIFadeInDuration);
 				});
 		}
