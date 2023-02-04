@@ -18,8 +18,9 @@ namespace ns
             {
                 if (EnergyManager.Instance.energyFull)
                 {
-                    collectFeedbacks.transform.parent = null;
+                    collectFeedbacks.gameObject.transform.parent = null;
                     collectFeedbacks?.PlayFeedbacks();
+                    Destroy(gameObject, 1f);
                 }
             }
         }
