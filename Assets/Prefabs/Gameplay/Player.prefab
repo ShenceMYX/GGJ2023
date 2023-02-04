@@ -13123,7 +13123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b73c000d98249808629bbc3b9820b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decreaseSpeed: -20
+  autoDecreasingSpeed: -20
   enterSoilArea: 0
   flipSpriteTrans: {fileID: 987919148}
   treeBaseAnim: {fileID: 741246917}
