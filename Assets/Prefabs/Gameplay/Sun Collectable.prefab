@@ -6606,6 +6606,7 @@ GameObject:
   - component: {fileID: 172785322566208954}
   - component: {fileID: 402839163}
   - component: {fileID: 402839162}
+  - component: {fileID: 402839166}
   m_Layer: 0
   m_Name: Sun Collectable
   m_TagString: Untagged
@@ -6656,3 +6657,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectFeedbacks: {fileID: 36481019}
+--- !u!95 &402839166
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172785322566208955}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d0a87e276c0944cd9b977bdae93ae3fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

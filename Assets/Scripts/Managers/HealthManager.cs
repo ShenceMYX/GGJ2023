@@ -13,7 +13,9 @@ namespace ns
 	/// </summary>
 	public class HealthManager : MonoSingleton<HealthManager>
 	{
-		[Tooltip("初始有几个血条")] private int initialHealthCount = 3;
+        [Tooltip("没有扎根土壤时，每秒血条下降的速度")] [SerializeField] private float autoDecreasingSpeed = -20;
+
+        [Tooltip("初始有几个血条")] private int initialHealthCount = 3;
 		[Tooltip("单个血条的最大生命值")] [SerializeField] private float maxHealth = 100;
         //[Tooltip("每秒血条上升的速度")] [SerializeField] private float increaseSpeed = 5;
         [Tooltip("每秒血条上升的速度")] public float healthChangeSpeed = 0;
@@ -49,6 +51,8 @@ namespace ns
         private SpriteRenderer[] allSpriteRenderers;
         [SerializeField] private float flickerEffectsInterval = 0.1f;
 
+        public float enemyDamage;
+
         public override void Init()
         {
             base.Init();
@@ -68,6 +72,22 @@ namespace ns
         private void Update()
         {
             if (isDeath) return;
+
+            healthChangeSpeed = autoDecreasingSpeed;
+
+            //如果扎根了，每秒增加土壤给予的增量
+            if (PlayerInputController.Instance.isRooting)
+            {
+                if (!PlayerInputController.Instance.enterSoilArea)
+                {
+                    //如果扎根在普通的地上，土壤给予的增量为 抵消初始降低数值的数值
+                    healthChangeSpeed += -healthChangeSpeed;
+                }
+                else
+                    healthChangeSpeed += PlayerInputController.Instance.soilIncreaseSpeed;
+            }
+
+            healthChangeSpeed += enemyDamage;
 
             currentHealth += healthChangeSpeed * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0, totalHealth);

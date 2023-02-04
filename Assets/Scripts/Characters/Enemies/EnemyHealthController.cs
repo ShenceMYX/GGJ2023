@@ -98,7 +98,8 @@ namespace ns
                 {
                     if (!decreaseOnce)
                     {
-                        HealthManager.Instance.AddHealthChangeSpeed(-enemyDamage);
+                        HealthManager.Instance.enemyDamage = -enemyDamage;
+                        //HealthManager.Instance.AddHealthChangeSpeed(-enemyDamage);
                         //玩家将处于被敌人扣血状态
                         decreaseOnce = true;
                     }
@@ -119,6 +120,7 @@ namespace ns
             {
                 HealthManager.Instance.AddHealthChangeSpeed(enemyDamage);
                 decreaseOnce = false;
+                HealthManager.Instance.enemyDamage = 0;
             }
 
             currentHealth += healthChangeSpeed * Time.deltaTime;
