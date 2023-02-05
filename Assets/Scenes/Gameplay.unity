@@ -27539,7 +27539,7 @@ MonoBehaviour:
   healthUIPrefab: {fileID: 5301702144896081023, guid: c4fcad5db9cce44cd995b873914ab3e1, type: 3}
   deathFeedbacks: {fileID: 1060842355}
   treeTrunksRootTrans: {fileID: 1789987006}
-  willTriggerDeath: 0
+  willTriggerDeath: 1
   extraHealthGO: {fileID: 806121461}
   hitFeedbacks: {fileID: 56145495}
   playerSpritesRootTrans: {fileID: 1917514056}
